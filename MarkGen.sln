@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30110.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkGen.Console", "MarkGen\MarkGen.Console.csproj", "{118782B2-8B6B-4FE2-9A6F-EEC763082706}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkGen.Infrastructure", "MarkGen.Infrastructure\MarkGen.Infrastructure.csproj", "{D583FE1D-302B-4858-9226-139E726BC649}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkGen.UnitTest", "MarkGen.UnitTest\MarkGen.UnitTest.csproj", "{84FCB41E-147C-4622-83A5-05E758477A14}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkGen.IntegrationTest", "MarkGen.IntegrationTest\MarkGen.IntegrationTest.csproj", "{8C3D1F77-AFB0-4427-B45A-5B114ED8DA51}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkGen.Dependency", "MarkGen.Dependency\MarkGen.Dependency.csproj", "{1E0C36BB-F9E6-4429-89A7-D3C3329411C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkGen.Generation", "MarkGen.Generation\MarkGen.Generation.csproj", "{31A1DB54-1C85-4585-A152-03C7F8B72AC5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{118782B2-8B6B-4FE2-9A6F-EEC763082706}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{118782B2-8B6B-4FE2-9A6F-EEC763082706}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{118782B2-8B6B-4FE2-9A6F-EEC763082706}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{118782B2-8B6B-4FE2-9A6F-EEC763082706}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D583FE1D-302B-4858-9226-139E726BC649}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D583FE1D-302B-4858-9226-139E726BC649}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D583FE1D-302B-4858-9226-139E726BC649}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D583FE1D-302B-4858-9226-139E726BC649}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84FCB41E-147C-4622-83A5-05E758477A14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84FCB41E-147C-4622-83A5-05E758477A14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84FCB41E-147C-4622-83A5-05E758477A14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84FCB41E-147C-4622-83A5-05E758477A14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C3D1F77-AFB0-4427-B45A-5B114ED8DA51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C3D1F77-AFB0-4427-B45A-5B114ED8DA51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C3D1F77-AFB0-4427-B45A-5B114ED8DA51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C3D1F77-AFB0-4427-B45A-5B114ED8DA51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E0C36BB-F9E6-4429-89A7-D3C3329411C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E0C36BB-F9E6-4429-89A7-D3C3329411C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E0C36BB-F9E6-4429-89A7-D3C3329411C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E0C36BB-F9E6-4429-89A7-D3C3329411C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31A1DB54-1C85-4585-A152-03C7F8B72AC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31A1DB54-1C85-4585-A152-03C7F8B72AC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31A1DB54-1C85-4585-A152-03C7F8B72AC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31A1DB54-1C85-4585-A152-03C7F8B72AC5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
