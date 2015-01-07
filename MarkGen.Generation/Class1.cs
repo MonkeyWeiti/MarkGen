@@ -1,61 +1,85 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.Dynamic;
 using System.IO;
+using System.Linq;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using ExifLib;
+using ImageProcessor;
+using ImageProcessor.Imaging;
 
 namespace MarkGen.Generation {
     public class GalleryGenerator {
         public void Generate(string galleryName, string sourceFilePath) {
-            var filesInDirectory = Directory.EnumerateFiles(sourceFilePath);
+            var filesInDirectory = Directory.EnumerateFiles(sourceFilePath).Where(x=> !x.Contains("Thumbs.db"));
 
-            var targetPath = "C:\\MarkGen\\output\\g\\" + galleryName.Replace(" ", "_");
+            var targetPath = @"C:\MarkGen\output\g\" + galleryName.Replace(" ", "_");
             var i = new ImageProcessor();
 
             //1. Create Gallery Folder
             //Make a copy of the 'web' folder in the Juicebox download folder. This will be your gallery folder.
+            CopyGalleryTemplate(targetPath);
+            var config = new List<string>();
+            config.Add(string.Format("<juiceboxgallery galleryTitle=\"{0}\">", galleryName));
 
             foreach (var sourceFile in filesInDirectory)
             {
                 var fileInfo = new FileInfo(sourceFile);
                 var targetFileForImages = Path.Combine(targetPath, "images", fileInfo.Name);
                 var targetFileForThumbs = Path.Combine(targetPath, "thumbs", fileInfo.Name);
+                i.CreateThumbnailAndResizedImage(sourceFile, targetFileForThumbs, targetFileForImages, 25);
 
-                //2. Add Images
-                //Copy your images to the gallery folder 'images' folder.
-                i.ResizeImage(sourceFile,targetFileForImages,25);
-
-                //3. Create Thumbnails
-                //Create thumbnails with an image editing program (e.g. Photoshop). Place thumbnail images in 'thumbs' folder. Thumbnails should be square and at least 85x85 pixels.
-                i.CreateThumbnail(sourceFile,targetFileForThumbs);
-
-                //4: Edit config.xml
-                //Open config.xml in any text editing software (e.g. Notepad, TextEdit ). Set your gallery options by editing the juiceboxgallery tag attributes at the top of the file. View details on setting config options.
-                //Next, add an <image> tag for every image in the gallery:
-                //  <image imageURL="images/wide.jpeg" thumbURL="thumbs/wide.jpeg" linkURL="images/wide.jpeg" linkTarget="_blank"/>  
+                config.Add(string.Format("<image imageURL=\"images/{0}\" thumbURL=\"thumbs/{0}\" linkURL=\"images/{0}\" linkTarget=\"_blank\"/>"  ,fileInfo.Name));
             }
+            config.Add("</juiceboxgallery>");
 
+            File.WriteAllLines(targetPath + @"\config.xml", config);
+        }
+
+        private void CopyGalleryTemplate(string targetPath) {
+            var process = new Process();
+            process.StartInfo.FileName = "xcopy";
+            var source = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
+            process.StartInfo.Arguments = string.Format(@"{0} {1} /e /h /c /I", source + @"\galleryTemplate", targetPath);
+            process.Start();  
         }
     }
 
     public class ImageProcessor {
-        public void CreateThumbnail(string sourcePath, string thumbnailPath) {
-            var image = Image.FromFile(sourcePath);
-            const int thumbSize = 85;
-            var thumbnail = ResizeImage(image, thumbSize, thumbSize);
-            thumbnail.Save(thumbnailPath);
-        }
-        public void ResizeImage(string sourcePath, string targetPath, int newSizeInPercent) {
-            var image = Image.FromFile(sourcePath);
-            var newHeight = (image.Height / 100) * newSizeInPercent;
-            var newWidth = (image.Width / 100) * newSizeInPercent;
-            var resizedImage = ResizeImage(image, newWidth, newHeight);
-            resizedImage.Save(targetPath);
+
+        public void CreateThumbnailAndResizedImage(string sourcePath, string thumbnailPath, string targetPath, int newSizeInPercent) {
+            var sourceStream = new StreamReader(sourcePath).BaseStream;
+            CreateThumbnail(sourceStream, thumbnailPath);
+            ResizeImage(sourceStream, targetPath, newSizeInPercent);
         }
 
-        public static Image ResizeImage(Image imgToResize, int width, int height) {
-            var resizeImage = (Image)(new Bitmap(imgToResize, new Size(width, height)));
-            imgToResize.Dispose();
-            return resizeImage;
+        public void CreateThumbnail(Stream sourceStream, string thumbnailPath) {
+            const int thumbSize = 85;
+            var imageFactory = new ImageFactory();
+            imageFactory = imageFactory.Load(sourceStream);
+            var resizeLayer = new ResizeLayer(new Size(thumbSize, thumbSize),ResizeMode.Crop);
+            imageFactory.Resize(resizeLayer).AutoRotate().Save(thumbnailPath);
+            imageFactory.Dispose();
         }
+
+        public void ResizeImage(Stream sourceStream, string targetPath, int newSizeInPercent) {
+            var imageFactory = new ImageFactory();
+            imageFactory = imageFactory.Load(sourceStream);
+            var size = CalcNewSize(imageFactory.Image.Size, newSizeInPercent);
+            imageFactory.Resize(size).AutoRotate().Save(targetPath);
+            imageFactory.Dispose();
+
+        }
+
+        private Size CalcNewSize(Size oldSize, int newSizeInPercent) {
+            var newHeight = Convert.ToInt32((oldSize.Height / 100) * newSizeInPercent);
+            var newWidth = Convert.ToInt32((oldSize.Width / 100) * newSizeInPercent);
+            return new Size(newWidth, newHeight);
+        }        
     }
 }

@@ -13,7 +13,8 @@ namespace MarkGen.UnitTest
         [Test]
         public void TestStuff() {
             var g = new GalleryGenerator();
-            g.Generate("Castrum Plaviense", "C:\\MarkGen\\Reychsausritt\\Castrum Plaviense");
+            g.Generate("Castrum Plaviense", @"C:\MarkGen\Reychsausritt\Castrum Plaviense");
+            g.Generate("Vimaria", @"C:\MarkGen\Reychsausritt\Vimaria");
         }
     }
 }
